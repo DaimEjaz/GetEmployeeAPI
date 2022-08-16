@@ -9,10 +9,13 @@ namespace GetEmployeesAPI.Controllers
 {
     public class GetEmployeesController : ApiController
     {
+        //Defining route & method for both API's
+
         [Route("GetEmployees")]
         [HttpGet]
-        public string GetEmployees()
+        public List<Employee> GetEmployees()
         {
+            //Returning fetched results back to client
             var data = new Employee().GetEmployees();
             return data;
         }
@@ -20,7 +23,7 @@ namespace GetEmployeesAPI.Controllers
         [Route("GetEmployee/{id}")]
         [HttpGet]
 
-        public string GetEmployee(int id)
+        public Employee GetEmployee(int id)
         {
             var data = new Employee().GetEmployee(id);
             return data;
