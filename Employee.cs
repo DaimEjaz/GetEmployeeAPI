@@ -35,6 +35,9 @@ namespace GetEmployeesAPI
             address = employeeAddress;
             joiningYear = year;
         }
+
+        // ****************************************USED IT TO POPULATE DATABASE****************************************************//
+
         //public void EmployeeGenerator(string[] nameArr, string[] roleArr, string[] addressArr)
         //{
         //    Random rnd = new Random();
@@ -106,7 +109,7 @@ namespace GetEmployeesAPI
                         {
                             emp = new Employee(Convert.ToInt32(reader.GetValue(0)), reader.GetValue(1).ToString(), reader.GetValue(2).ToString(), Convert.ToInt32(reader.GetValue(3)));
                         }
-                       
+
                     }
 
 
@@ -119,6 +122,81 @@ namespace GetEmployeesAPI
             }
 
 
+        }
+
+        public void UpdateEmployee(int Id, string StudentName, string Address, int AdmissionYear)
+        {
+            using (SqlConnection con = new SqlConnection(@"Data Source=CMDLHRDB01;Initial Catalog=StudentTbl;User ID=sa;Password=CureMD2022"))
+            {
+                
+                string updateQuery = " UPDATE Students SET StudentName = @StudentName , Address = @Address, AdmissionYear=@AdmissionYear WHERE Id = @Id; ";
+                using (SqlCommand command = new SqlCommand(updateQuery, con))
+                {
+                    con.Open();
+
+                    command.Parameters.AddWithValue("@StudentName", StudentName);
+                    command.Parameters.AddWithValue("@Address", Address);
+                    command.Parameters.AddWithValue("@AdmissionYear",AdmissionYear);
+                    command.Parameters.AddWithValue("@Id", Id);
+
+                    int result = command.ExecuteNonQuery();
+
+                    con.Close();
+
+                }
+            }
+        }
+
+        public void AddEmployee(string StudentName, string Address, int AdmissionYear)
+        {
+            using (SqlConnection con = new SqlConnection(@"Data Source=CMDLHRDB01;Initial Catalog=StudentTbl;User ID=sa;Password=CureMD2022"))
+            {
+
+                string updateQuery = " INSERT INTO Students(StudentName, Address, AdmissionYear ) VALUES(@StudentName , @Address, @AdmissionYear); ";
+                using (SqlCommand command = new SqlCommand(updateQuery, con))
+                {
+                    con.Open();
+
+                    command.Parameters.AddWithValue("@StudentName", StudentName);
+                    command.Parameters.AddWithValue("@Address", Address);
+                    command.Parameters.AddWithValue("@AdmissionYear", AdmissionYear);
+                    //command.Parameters.AddWithValue("@Id", Id);
+
+                    int result = command.ExecuteNonQuery();
+
+                    con.Close();
+
+                }
+            }
+        }
+
+        public void DeleteEmployee(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(@"Data Source=CMDLHRDB01;Initial Catalog=StudentTbl;User ID=sa;Password=CureMD2022"))
+            {
+
+                string deleteQuery = " DELETE FROM Students WHERE Id =@id; ";
+                string reseedCmd = "DBCC CHECKIDENT ('Students', RESEED, 1);";
+
+                using (SqlCommand command = new SqlCommand(deleteQuery, con))
+                {
+                    con.Open();
+                    command.Parameters.AddWithValue("@Id", Id);
+
+                    int result = command.ExecuteNonQuery();
+
+                    con.Close();
+
+                }
+
+                using (SqlCommand command = new SqlCommand(reseedCmd, con))
+                {
+                    con.Open();
+                    int result = command.ExecuteNonQuery();
+                    con.Close();
+
+                }
+            }
         }
     }
 }

@@ -28,5 +28,40 @@ namespace GetEmployeesAPI.Controllers
             var data = new Employee().GetEmployee(id);
             return data;
         }
+
+        [Route("UpdateEmployee/{id}")]
+        [HttpPut]
+
+        public void UpdateEmployee(int id, [FromBody] Employee employee)
+        {
+            int Id = id;
+            string StudentName = employee.name;
+            string Address = employee.address;
+            int AdmissionYear = employee.joiningYear;
+            new Employee().UpdateEmployee( Id,  StudentName,  Address, AdmissionYear);
+        }
+
+
+        [Route("AddEmployee")]
+        [HttpPost]
+
+        public void AddEmployee([FromBody] Employee employee)
+        {
+            string StudentName = employee.name;
+            string Address = employee.address;
+            int AdmissionYear = employee.joiningYear;
+            new Employee().AddEmployee(StudentName, Address, AdmissionYear);
+        }
+
+
+        [Route("DeleteEmployee/{id}")]
+        [HttpDelete]
+
+        public void DeleteEmployee(int id)
+        {
+            new Employee().DeleteEmployee(id);
+        }
+
+
     }
 }
