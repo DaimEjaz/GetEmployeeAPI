@@ -10,31 +10,32 @@ namespace GetEmployeesAPI
 {
     public class Employee
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public string name { get; set; }
         public string address { get; set; }
 
         public int joiningYear { get; set; }
 
-        public List<Employee> list = new List<Employee>();
 
         string[] nameArr = { "Edgar Barber", "Marquis Reilly", "Isabell Frank", "Issac Hammond", "Aydan Mcclain", "Daphne Burke", "Mia Duarte", "Phoebe Mcclain", "Dayana Massey", "Maxwell Zhang", "Keith Pineda", "Dustin Camacho", "Alyvia Lam", "Justice Mata", "Alissa Bautista", "Laura Wade", "Howard Flynn", "Marques Wilcox", "Taryn Wang", "Caden Potts" };
         string[] roleArr = { "IT Coordinator", "Technical writer", "Data Analyst", "Web Developer", "Systems Analyst", "IT Analyst", "SQA Engineer", "System Administrator", "Business intelligence analyst", "Software Architect", ".NET Developer", "UX Designer", "Product Manager", "Database Administrator", "Data Scientist", "Computer Programmer", "Application analyst", "Web Developer", "Java Developer", "Application developer" };
         string[] addressArr = { "753, Schinner Lake", "15504, O'Kon Plaza", "10281, Moore Island", "58552, Fermin Harbors", "786, Schmitt Crescent", "4028, Swaniawski Pass", "12616, Allison Inlet", "19745, Emily Street", "5733, Winifred Motorway", "678, McClure Course" };
 
-        public List<Employee> EmployeeList = new List<Employee>();
+        
 
         public Employee()
         {
 
         }
-        public Employee(int id, string employeeName, string employeeAddress, int year)
+        public Employee(int Id, string employeeName, string employeeAddress, int year)
         {
-            Id = id;
+            id = Id;
             name = employeeName;
             address = employeeAddress;
             joiningYear = year;
         }
+
+        
 
         // ****************************************USED IT TO POPULATE DATABASE****************************************************//
 
@@ -71,8 +72,10 @@ namespace GetEmployeesAPI
             //Making connection & creating list of Employee objects from the read data
             using (SqlConnection con = new SqlConnection(@"Data Source=CMDLHRDB01;Initial Catalog=StudentTbl;User ID=sa;Password=CureMD2022"))
             {
+                 List<Employee> list = new List<Employee>();
+
                 con.Open();
-                using (SqlCommand command = new SqlCommand("SELECT TOP 10 * FROM Students;", con))
+                using (SqlCommand command = new SqlCommand("SELECT * FROM Students;", con))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
